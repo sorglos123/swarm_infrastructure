@@ -1,0 +1,4 @@
+---
+- name: createSwarm
+  hosts: swarmnodes
+  become: yes

@@ -1,0 +1,59 @@
+---
+- name: createLXC
+  hosts: hypervisor
+  vars:
+    rsaPub: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCqxeY5U0gBGYUywzGsHfcqpVnAZGdELH/7/7Rl/Etk1iSJZHc/V4QECC8Dx0Kd4TlvrNJ/vPEh9IZEWco3nP7FFDTtQthy9ITS4toLvoQ7O4OMAvqpX84Kzv1c6rRDaXqUpauoyX/iNfwfA2qomlwHgkImvUojuFutn9EHPVCB7btIRwP2Roilc5DVVPRNzMB/0GTEHld0ngzIFdb023h5f8Yf9HTIHEHMcgWEISDFPKpmT/VqvD4kMGrpwj6BCVnfw1Rk5CTF+Uvsc8bCZRuFsjXOHHpKTZcU8OhekFNHkdruslssLXcQiHiY51v0vT9iNPluH7sqDkBXjyZ972YrKr9OxZzN0k9b4rlM9RS2/NeoT31PblJyedq9xLlnsU6jeJEx1vFfYuIjD/faU6DZj1SCVg+fm2DUYq02LERm+gKa5UKAVjj10IKr53ZBHk9QJYLz+4WdNj2+6AlXzIpfAc3in2x7ys4Ii/PGDLPsFWI+Exb4fIGs+5ah53c/wIU= root@ansible
+  vars_prompt:
+    - name: api_key
+      prompt: Enter the API key
+  tasks:
+  - name: Creating swarm node1 selecting the next available vmid.
+    community.general.proxmox:
+      node: 'pve'
+      api_user: 'root@pam'
+      api_password: "API_KEY={{ api_key }}"
+      api_host: 'pve'
+      password: '123456'
+      hostname: 'swarm-node1'
+      pubkey: "{{ rsaPub }}"
+      ostemplate: 'local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz'
+      netif: '{"net0":"name=eth0,gw=192.168.178.1,ip=192.168.178.97/24,bridge=vmbr0"}'
+      storage: 'local-lvm'
+      nameserver: '192.168.178.123'
+      state: 'started'
+      features:
+        - nesting=1
+
+  - name: Creating swarm node2 selecting the next available vmid.
+    community.general.proxmox:
+      node: 'pve'
+      api_user: 'root@pam'
+      api_password: "API_KEY={{ api_key }}"
+      api_host: 'pve'
+      password: '123456'
+      hostname: 'swarm-node2'
+      pubkey: "{{ rsaPub }}"
+      ostemplate: 'local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz'
+      netif: '{"net0":"name=eth0,gw=192.168.178.1,ip=192.168.178.98/24,bridge=vmbr0"}'
+      storage: 'local-lvm'
+      nameserver: '192.168.178.123'
+      state: 'started'
+      features:
+        - nesting=1
+
+  - name: Creating swarm node3 selecting the next available vmid.
+    community.general.proxmox:
+      node: 'pve'
+      api_user: 'root@pam'
+      api_password: "API_KEY={{ api_key }}"
+      api_host: 'pve'
+      password: '123456'
+      hostname: 'swarm-node3'
+      pubkey: "{{ rsaPub }}"
+      ostemplate: 'local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz'
+      netif: '{"net0":"name=eth0,gw=192.168.178.1,ip=192.168.178.99/24,bridge=vmbr0"}'
+      storage: 'local-lvm'
+      nameserver: '192.168.178.123'
+      state: 'started'
+      features:
+        - nesting=1

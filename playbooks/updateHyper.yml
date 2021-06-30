@@ -1,0 +1,10 @@
+---
+- name: updateubuntu
+  hosts: hypervisor
+  become: yes
+  tasks:
+    - name: update Proxmox
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
