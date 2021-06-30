@@ -9,6 +9,8 @@ installDocker.yml install on the deployed LXCs Docker
 
 ToDo:
 
+Use Vault so the for pub RSA key and api passwords
+
 createSwarm.yml create a swarm cluster from the nodes
 
 createglusterFS.yml create a glusterFS across the nodes
