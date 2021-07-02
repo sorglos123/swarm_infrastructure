@@ -1,0 +1,21 @@
+---
+- name: createSwarm
+  hosts: swarmnodes
+
+  tasks:
+    - name: Init a new swarm with default parameters
+      community.docker.docker_swarm:
+        state: present
+      register: swarm_tokens
+      run_once: true
+
+    - name: Add nodes
+      community.docker.docker_swarm:
+        state: join
+        advertise_addr: 192.168.178.97
+        join_token: "{{ swarm_tokens.swarm_facts.JoinTokens.Worker }}"
+        remote_addrs: [ '192.168.178.97:2377' ]
+        
+    - name: output index_file
+      debug:
+        msg: "{{ swarm_tokens.swarm_facts.JoinTokens }}"
