@@ -50,6 +50,9 @@
 
 192.168.178.84
 
+[hypervisor:vars]
+ansible_python_interpreter=/usr/bin/python3
+
 [swarmnodes]
 
 192.168.178.97
