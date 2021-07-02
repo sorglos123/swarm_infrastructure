@@ -1,28 +1,21 @@
 ---
 - name: createSwarm
   hosts: swarmnodes
-  become: yes
 
   tasks:
-  - name: Check if Swarm has already been Initialized
-    shell: docker node ls
-    register: swarm_status
-    ignore_errors: true
-    tags: swarm
+    - name: Init a new swarm with default parameters
+      community.docker.docker_swarm:
+        state: present
+      register: swarm_tokens
+      run_once: true
 
-  - name: Init Docker Swarm
-    shell: >
-          docker swarm init
-          --advertise-addr={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:2377
-    when: swarm_status.rc != 0
-    run_once: true
-
-  - name: Get the Manager join-token
-    shell: docker swarm join-token --quiet manager
-    register: manager_token
-    tags: swarm
-
-  - name: Get the worker join-token
-    shell: docker swarm join-token --quiet worker
-    register: worker_token
-    tags: swarm
+    - name: Add nodes
+      community.docker.docker_swarm:
+        state: join
+        advertise_addr: 192.168.178.97
+        join_token: "{{ swarm_tokens.swarm_facts.JoinTokens.Worker }}"
+        remote_addrs: [ '192.168.178.97:2377' ]
+        
+    - name: output index_file
+      debug:
+        msg: "{{ swarm_tokens.swarm_facts.JoinTokens }}"

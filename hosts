@@ -58,12 +58,3 @@ ansible_python_interpreter=/usr/bin/python3
 swarm-node1
 swarm-node2
 swarm-node3
-
-[swarmManager]
-
-swarm-node1
-
-[swarmWorker]
-
-swarm-node2
-swarm-node3
