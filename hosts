@@ -55,7 +55,7 @@ ansible_python_interpreter=/usr/bin/python3
 
 [swarmnodes]
 
-192.168.178.97
-192.168.178.98
-192.168.178.99
+swarm-node1
+swarm-node2
+swarm-node3
 
