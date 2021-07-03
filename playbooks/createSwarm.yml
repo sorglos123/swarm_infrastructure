@@ -16,6 +16,3 @@
         join_token: "{{ swarm_tokens.swarm_facts.JoinTokens.Worker }}"
         remote_addrs: [ '192.168.178.97:2377' ]
         
-    - name: output index_file
-      debug:
-        msg: "{{ swarm_tokens.swarm_facts.JoinTokens }}"

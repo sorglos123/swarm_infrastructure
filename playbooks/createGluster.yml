@@ -1,0 +1,16 @@
+---
+- name: createGluster
+  hosts: swarmnodes
+
+  tasks:
+  - name: Install software-properties-common
+    apt: name=software-properties-common state=latest update_cache=yes
+    
+  - name: Add the community GlusterFS PPA
+    ansible.builtin.apt_repository:
+      repo: ppa:gluster/glusterfs-7
+
+  - name: Install Gluster Server
+    apt: name=glusterfs-server state=latest
+
+
