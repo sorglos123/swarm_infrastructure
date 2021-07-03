@@ -16,3 +16,7 @@ createSwarm.yml create a swarm cluster from the nodes
 createglusterFS.yml create a glusterFS across the nodes
 
 glusterFS has to be configured as primary FS for Docker
+
+Required Ansible libraries:
+community.docker
+community.general.proxmox
