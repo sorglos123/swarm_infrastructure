@@ -1,5 +1,5 @@
 ---
-- name: createGluster
+- name: installGluster
   hosts: swarmnodes
 
   tasks:
@@ -12,5 +12,11 @@
 
   - name: Install Gluster Server
     apt: name=glusterfs-server state=latest
+
+  - name: Start Gluster Service
+    ansible.builtin.systemd:
+      state: started
+      enabled: yes
+      name: glusterd
 
 

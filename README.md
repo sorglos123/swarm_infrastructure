@@ -20,3 +20,4 @@ glusterFS has to be configured as primary FS for Docker
 Required Ansible libraries:
 community.docker
 community.general.proxmox
+gluster.gluster
