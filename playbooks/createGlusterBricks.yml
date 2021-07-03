@@ -6,10 +6,9 @@
   - name: Create Gluster Pool
     gluster.gluster.gluster_peer:
       state: present
-      nodes:
-        - swarm-node1
-        - swarm-node2
-        - swarm-node3
+      nodes: "{{ item }}"
+    with_items: 
+        - "{{ groups['swarmnodes'] }}"     
     run_once: true    
 
   - name: Create Path for Gluster
@@ -17,4 +16,3 @@
       path: /gluster
       state: directory
 
-  
