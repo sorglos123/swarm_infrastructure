@@ -26,6 +26,7 @@
       nameserver: '192.168.178.123'
       features:
         - nesting=1
+        - mount=fuse
 
   - name: Creating swarm node2 selecting the next available vmid.
     community.general.proxmox:
@@ -42,6 +43,7 @@
       nameserver: '192.168.178.123'
       features:
         - nesting=1
+        - mount=fuse
 
   - name: Creating swarm node3 selecting the next available vmid.
     community.general.proxmox:
@@ -58,6 +60,7 @@
       nameserver: '192.168.178.123'
       features:
         - nesting=1
+        - mount=fuse
 
   - name: Starting Nodes
     community.general.proxmox:

@@ -16,3 +16,34 @@
       path: /gluster
       state: directory
 
+  - name: Create Mount Path for Gluster
+    file:
+      path: /mount
+      state: directory
+
+  - name: Create Gluster Brick
+    gluster.gluster.gluster_volume:
+      state: present
+      name: saver
+      bricks: /gluster/b1
+      cluster: "{{ item }}"
+      redundancies: 3
+      force: true
+    with_items:
+      - "{{ groups['swarmnodes'] }}"
+    run_once: true
+
+  - name: start volume
+    gluster.gluster.gluster_volume:
+      state: started
+      name: saver
+
+  - name: Mount GlusterFS on Reboot via fstab
+    shell: >
+      echo 'localhost:/saver /mount glusterfs defaults,_netdev,backupvolfile-server=localhost 0 0' >> /etc/fstab
+
+  - name: Mount GlusterFS
+    shell: >
+      mount.glusterfs localhost:/saver /mnt
+    tags:
+      - mount
