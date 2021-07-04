@@ -1,0 +1,24 @@
+---
+- name: Creating Containers
+  import_playbook: 00-createlxc.yml
+
+- name: Waiting for SSH
+  import_playbook: 000-waitforssh.yml
+
+- name: Exchanging SSH Keys
+  import_playbook: 01-exchangeSSH.yml
+
+- name: Updating Host Files
+  import_playbook: 02-updateHostFile.yml
+
+- name: install Docker
+  import_playbook: 03-installDocker.yml
+
+- name: Create Swarm
+  import_playbook: 04-createSwarm.yml
+
+- name: Install Gluster
+  import_playbook: 05-installGluster.yml
+
+- name: Create Gluster Bricks
+  import_playbook: 06-createGlusterBricks.yml
