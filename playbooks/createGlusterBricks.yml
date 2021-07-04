@@ -21,17 +21,27 @@
       path: /mount
       state: directory
 
+  #- name: Create Gluster Brick
+  #  gluster.gluster.gluster_volume:
+  #    state: present
+  #    name: saver3
+  #    bricks: /gluster/b5
+  #    cluster: "{{ item }}"
+  #    replicas: 3
+  #    force: true
+  #  with_items:
+  #    - "{{ groups['swarmnodes'] }}"
+  #  run_once: true
+  #  tags:
+  #    - brick
+
   - name: Create Gluster Brick
-    gluster.gluster.gluster_volume:
-      state: present
-      name: saver
-      bricks: /gluster/b1
-      cluster: "{{ item }}"
-      redundancies: 3
-      force: true
-    with_items:
-      - "{{ groups['swarmnodes'] }}"
+    shell: >
+      gluster volume create saver replica 3 swarm-node1:/gluster/test4 swarm-node2:/gluster/test4 swarm-node3:/gluster/test4 force
     run_once: true
+    tags:
+      - brick
+
 
   - name: start volume
     gluster.gluster.gluster_volume:
@@ -44,6 +54,6 @@
 
   - name: Mount GlusterFS
     shell: >
-      mount.glusterfs localhost:/saver /mnt
+      mount.glusterfs localhost:/saver /mount
     tags:
       - mount
