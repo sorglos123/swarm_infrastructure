@@ -24,37 +24,26 @@
   - name: Create Gluster Brick
     gluster.gluster.gluster_volume:
       state: present
-      name: test5
-      bricks: /gluster/test5
-      cluster: 
-          - swarm-node1
-          - swarm-node2
-          - swarm-node3
+      name: swarmfs
+      bricks: /gluster/swarm
+      cluster: "{{ groups['swarmnodes'] }}"
       replicas: 3
       force: true
     run_once: true
     tags:
       - betterbrick
 
- # - name: Create Gluster Brick
- #   shell: >
- #     gluster volume create saver replica 3 swarm-node1:/gluster/test4 swarm-node2:/gluster/test4 swarm-node3:/gluster/test4 force
- #   run_once: true
- #   tags:
- #     - brick
-
-
   - name: start volume
     gluster.gluster.gluster_volume:
       state: started
-      name: saver
+      name: swarmfs
 
   - name: Mount GlusterFS on Reboot via fstab
     shell: >
-      echo 'localhost:/saver /mount glusterfs defaults,_netdev,backupvolfile-server=localhost 0 0' >> /etc/fstab
+      echo 'localhost:/swarmfs /mount glusterfs defaults,_netdev,backupvolfile-server=localhost 0 0' >> /etc/fstab
 
   - name: Mount GlusterFS
     shell: >
-      mount.glusterfs localhost:/saver /mount
+      mount.glusterfs localhost:/swarmfs /mount
     tags:
       - mount
